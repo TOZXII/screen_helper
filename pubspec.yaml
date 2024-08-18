@@ -5,13 +5,13 @@ homepage: https://github.com/TOZXII/screen_helper
 issue_tracker: https://github.com/TOZXII/screen_helper/issues
 screenshots:
   - description: 'Example app screenshot'
-    path: screenshots/Example screenshot.png
+    path: screenshots/Example_screenshot.png
 
 topics:
   - screen
-  - screen_utils
   - size
-  - mm_to_px
+  - mm
+  - px
   - ppi
 
 environment:

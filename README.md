@@ -24,7 +24,7 @@
 - Get screen width and height and diagonal size in inches.
 - Convert millimeters to pixels.
 
-<img alt="App example" src="https://github.com/TOZXII/screen_helper/blob/main/screenshots/Example%20screenshot.png" />
+<img alt="App example" src="https://i.imgur.com/LpcK2jq.png" />
 
 ## Getting Started
 In your flutter project add the dependency:
