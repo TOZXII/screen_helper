@@ -31,7 +31,7 @@ In your flutter project add the dependency:
 
 ```yaml
 dependencies:
-  screen_helper: ^0.0.1
+  screen_helper: ^0.0.2
 ```
 
 ## Usage

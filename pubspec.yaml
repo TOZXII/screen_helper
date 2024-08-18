@@ -1,6 +1,6 @@
 name: screen_helper
 description: "A package that provides essential tools for Flutter developers to access device screen details, including PPI, screen size in inches, resolution in pixels, and conversion from millimeters to pixels."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/TOZXII/screen_helper
 issue_tracker: https://github.com/TOZXII/screen_helper/issues
 screenshots:
