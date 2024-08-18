@@ -1,0 +1,40 @@
+name: screen_helper
+description: "A package that provides essential tools for Flutter developers to access device screen details, including PPI, screen size in inches, resolution in pixels, and conversion from millimeters to pixels."
+version: 0.0.1
+homepage: https://github.com/TOZXII/screen_helper
+issue_tracker: https://github.com/TOZXII/screen_helper/issues
+screenshots:
+  - description: 'Example app screenshot'
+    path: screenshots/Example screenshot.png
+
+topics:
+  - screen
+  - screen_utils
+  - size
+  - mm_to_px
+  - ppi
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.screen_helper
+        pluginClass: ScreenHelperPlugin
+      ios:
+        pluginClass: ScreenHelperPlugin
+ 
+
