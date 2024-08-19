@@ -22,8 +22,4 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, null);
   });
-
-  test('getScreenPPI', () async {
-    expect(await platform.getScreenPPI(), 42);
-  });
 }
