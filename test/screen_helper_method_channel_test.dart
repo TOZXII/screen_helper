@@ -5,7 +5,6 @@ import 'package:screen_helper/screen_helper_method_channel.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  MethodChannelScreenHelper platform = MethodChannelScreenHelper();
   const MethodChannel channel = MethodChannel('screen_helper');
 
   setUp(() {
