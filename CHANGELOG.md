@@ -1,3 +1,11 @@
+## 0.0.3
+
+* Updated README.md file.
+
+## 0.0.2
+
+* Updated README.md file.
+
 ## 0.0.1
 
 * Added support to get device PPI.
