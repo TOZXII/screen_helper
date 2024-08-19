@@ -12,6 +12,8 @@ jobs:
         with:
          channel: stable
          flutter-version: 3.3.3
+      - name: Check Dart Version
+        run: dart --version
       - name: flutter version
         run: flutter --version
       - name: Install dependencies
