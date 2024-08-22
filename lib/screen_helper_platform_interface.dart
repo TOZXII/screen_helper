@@ -17,44 +17,14 @@ abstract class ScreenHelperPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  // Returns the screen PPI (Pixels Per Inch) of the device.
-  Future<double?> getScreenPPI() {
-    throw UnimplementedError('getScreenPPI() has not been implemented.');
+  /// Returns the screen size in inches (width and height).
+  Future<Map<String, double>?> getScreenSizeInInches() {
+    throw UnimplementedError(
+        'getScreenSizeInInches() has not been implemented.');
   }
 
-  // Returns the screen Diagonal size in inches.
-  Future<double?> getScreenDiagonalInInches() {
-    throw UnimplementedError(
-        'getScreenDiagonalInInches() has not been implemented.');
-  }
-
-  //Returns the screen width in inches.
-  Future<double?> getScreenWidthInInches() {
-    throw UnimplementedError(
-        'getScreenWidthInInches() has not been implemented.');
-  }
-
-  // Returns the screen width in inches.
-  Future<double?> getScreenHeightInInches() {
-    throw UnimplementedError(
-        'getScreenHeightInInches() has not been implemented.');
-  }
-
-  /// Returns the real screen width in pixels.
-  Future<int?> getScreenRealWidthInPixels() {
-    throw UnimplementedError(
-        'getScreenRealWidthInPixels() has not been implemented.');
-  }
-
-  /// Returns the real screen height in pixels.
-  Future<int?> getScreenRealHeightInPixels() {
-    throw UnimplementedError(
-        'getScreenRealHeightInPixels() has not been implemented.');
-  }
-
-  /// Returns the screen diagonal size in pixels.
-  Future<int?> getScreenDiagonalInPixels() {
-    throw UnimplementedError(
-        'getScreenDiagonalInPixels() has not been implemented.');
+  /// Returns the screen resolution in pixels (width and height).
+  Future<Map<String, double>?> getScreenResolution() {
+    throw UnimplementedError('getScreenResolution() has not been implemented.');
   }
 }

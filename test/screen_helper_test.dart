@@ -8,36 +8,16 @@ class MockScreenHelperPlatform
     with MockPlatformInterfaceMixin
     implements ScreenHelperPlatform {
   @override
-  Future<double?> getScreenPPI() => Future.value(42);
-
-  @override
-  Future<double?> getScreenDiagonalInInches() {
-    throw UnimplementedError();
+  Future<Map<String, double>?> getScreenSizeInInches() async {
+    return {
+      'width': 5.5,
+      'height': 7.0,
+    };
   }
 
   @override
-  Future<double?> getScreenWidthInInches() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<double?> getScreenHeightInInches() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<int?> getScreenRealWidthInPixels() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<int?> getScreenRealHeightInPixels() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<int?> getScreenDiagonalInPixels() {
-    throw UnimplementedError();
+  Future<Map<String, double>?> getScreenResolution() async {
+    return {'width': 1080, 'height': 1920};
   }
 }
 
@@ -48,10 +28,35 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelScreenHelper>());
   });
 
-  test('getScreenPPI', () async {
+  test('getScreenSizeInInches', () async {
     MockScreenHelperPlatform fakePlatform = MockScreenHelperPlatform();
     ScreenHelperPlatform.instance = fakePlatform;
 
-    expect(await ScreenHelper.getScreenPPI(), 42);
+    expect(await fakePlatform.getScreenSizeInInches(),
+        {'width': 5.5, 'height': 7.0});
+  });
+
+  test('getScreenResolution', () async {
+    MockScreenHelperPlatform fakePlatform = MockScreenHelperPlatform();
+    ScreenHelperPlatform.instance = fakePlatform;
+
+    expect(await fakePlatform.getScreenResolution(),
+        {'width': 1080, 'height': 1920});
+  });
+
+  test('ScreenInfoData calculations', () {
+    const screenInfoData = ScreenInfoData(
+      screenSizeInInches: {'width': 5.5, 'height': 7.0},
+      screenResolution: {'width': 1080, 'height': 1920},
+      dpi: 2.0,
+    );
+
+    expect(screenInfoData.screenWidthInInches, 5.5);
+    expect(screenInfoData.screenHeightInInches, 7.0);
+    expect(screenInfoData.screenWidthInPixels, 1080);
+    expect(screenInfoData.screenHeightInPixels, 1920);
+    expect(screenInfoData.screenAspectRatio, closeTo(0.5625, 0.0001));
+    expect(screenInfoData.screenDiagonalInInches, closeTo(8.9, 0.1));
+    expect(screenInfoData.ppi, closeTo(247, 1.0));
   });
 }

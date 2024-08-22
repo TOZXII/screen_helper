@@ -56,26 +56,11 @@ public class ScreenHelperPlugin implements FlutterPlugin, MethodCallHandler, Act
     }
 
     switch (call.method) {
-      case "getScreenPPI":
-        result.success(screenSizeHelper.getScreenPPI());
+      case "getScreenSizeInInches":
+        result.success(screenSizeHelper.getScreenSizeInInches());
         break;
-      case "getScreenDiagonalSizeInInches":
-        result.success(screenSizeHelper.getScreenDiagonalInInches());
-        break;
-      case "getScreenWidthSizeInInches":
-        result.success(screenSizeHelper.getScreenWidthInInches());
-        break;
-      case "getScreenHeightSizeInInches":
-        result.success(screenSizeHelper.getScreenHeightInInches());
-        break;
-      case "getScreenRealWidthInPixels":
-        result.success(screenSizeHelper.getScreenRealWidthInPixels());
-        break;
-      case "getScreenRealHeightInPixels":
-        result.success(screenSizeHelper.getScreenRealHeightInPixels());
-        break;
-      case "screenDiagonalSizeInPixels":
-        result.success(screenSizeHelper.getScreenDiagonalInPixels());
+      case "getScreenResolution":
+        result.success(screenSizeHelper.screenSizeInPixels());
         break;
       default:
         result.notImplemented();

@@ -5,7 +5,7 @@
 Pod::Spec.new do |s|
   s.name             = 'screen_helper'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'A package that provides essential tools to access device screen details, including PPI, screen size in inches, resolution in pixels, and conversion from millimeters to pixels.'
   s.description      = <<-DESC
 A new Flutter plugin project.
                        DESC
@@ -14,7 +14,7 @@ A new Flutter plugin project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.resources        = ['Assets/**.*'] 
+
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'
 

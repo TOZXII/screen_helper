@@ -9,7 +9,6 @@ public class ScreenHelperPlugin: NSObject, FlutterPlugin {
   override init() {
     self.screenSizeHelper = ScreenSizeHelper()
     super.init()
-    self.screenSizeHelper.loadDeviceInfo()
   }
 
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -21,22 +20,15 @@ public class ScreenHelperPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-    case "getScreenPPI":
-      result(self.screenSizeHelper.getScreenPPI())
-    case "getScreenDiagonalSizeInInches":
-      result(self.screenSizeHelper.getDeviceDiagonalSize())
-    case "getScreenWidthSizeInInches":
-      result(self.screenSizeHelper.getScreenWidthSizeInInches())
-    case "getScreenHeightSizeInInches":
-      result(self.screenSizeHelper.getScreenHeightSizeInInches())
-    case "getScreenRealWidthInPixels":
-      result(self.screenSizeHelper.getScreenRealWidthInPixels())
-    case "getScreenRealHeightInPixels":
-      result(self.screenSizeHelper.getScreenRealHeightInPixels())
-    case "screenDiagonalSizeInPixels":
-      result(self.screenSizeHelper.screenDiagonalSizeInPixels())
+    case "getScreenSizeInInches":
+      let screenSizeInInches = self.screenSizeHelper.getScreenSizeInInches()
+      result(screenSizeInInches)
+    case "getScreenResolution":
+      let screenResolution = self.screenSizeHelper.screenSizeInPixels()
+      result(screenResolution)
     default:
       result(FlutterMethodNotImplemented)
     }
   }
+
 }

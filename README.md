@@ -1,4 +1,3 @@
-
 ![Pub Version](https://img.shields.io/pub/v/screen_helper?style=plastic)
 ![GitHub last commit](https://img.shields.io/github/last-commit/TOZXII/screen_helper?style=plastic)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/TOZXII/screen_helper?style=plastic&label=Github%20Issues)
@@ -22,61 +21,102 @@
 - Get screen PPI (Pixels Per Inch).
 - Get screen width and height and diagonal size in pixels.
 - Get screen width and height and diagonal size in inches.
-- Convert millimeters to pixels.
+- Convert millimeters to pixels and vice versa.
+- Convert inches to pixels and vice versa.
+- Convert centimeters to pixels and vice versa.
 
-<img alt="App example" src="https://i.imgur.com/LpcK2jq.png" />
+<img alt="App example" src="https://i.imgur.com/ksFQKLx.png" />
 
 ## Getting Started
 In your flutter project add the dependency:
 
 ```yaml
 dependencies:
-  screen_helper: ^0.0.3
+  screen_helper: ^1.0.0
 ```
 
 ## Usage
+Wrap your app with `ScreenHelperWidget` to provide screen information to all descendant widgets:
+
 ```dart
 import 'package:screen_helper/screen_helper.dart';
 ```
 
-### Get screen PPI (Pixels Per Inch)
 ```dart
-// Get screen PPI
-double? ppi = await ScreenHelper.getScreenPPI();
+void main() {
+  runApp(
+    /// Wrap your app with ScreenHelperWidget to provide screen information
+    /// to all descendant widgets
+    ScreenHelperWidget(
+      child: const MyApp(),
+    ),
+  );
+}
+
+
 ```
 
-### Get screen width and height and diagonal size in pixels
-```dart
-// Get screen width in pixels
-double? screenWidth = await ScreenHelper.getScreenRealWidthInPixels();
-// Get screen height in pixels
-double? screenHeight = await ScreenHelper.getScreenRealHeightInPixels();
-// Get screen diagonal size in pixels
-double? screenDiagonal = await ScreenHelper.getScreenDiagonalInPixels();
+### Access screen information
+
+To get screen information, use `ScreenInfo.maybeOf(context)`
+``` dart
+final screenInfo = ScreenInfo.maybeOf(context);
 ```
 
-### Get screen width and height and diagonal size in inches
-```dart
-// Get screen width in inches
-double? screenWidthInches = await ScreenHelper.getScreenWidthInInches();
-// Get screen height in inches
-double? screenHeightInches = await ScreenHelper.getScreenHeightInInches();
-// Get screen diagonal size in inches
-double? screenDiagonalInches = await ScreenHelper.getScreenDiagonalInInches();
+#### available data:
+``` dart
+/// Get screen size in inches {width: , height: }
+final Map<String, double> screenSizeInInches = screenInfo.screenSizeInInches;
+
+/// Get screen resolution in pixels {width: , height: }
+final Map<String, double> screenResolution = screenInfo.screenResolution;
+/// Get screen Dot per inch
+final double dpi = screenInfo.dpi;
+
+/// Get screen pixel per inch
+final double ppi = screenInfo.ppi;
+
+/// Get screen width in inches
+final double screenWidthInInches = screenInfo.screenWidthInInches;
+
+/// Get screen height in inches
+final double screenHeightInInches = screenInfo.screenHeightInInches;
+
+/// Get screen diagonal size in inches
+final double screenDiagonalInInches = screenInfo.screenDiagonalInInches;
+
+/// Get screen width in pixels
+final double screenWidthInPixels = screenInfo.screenWidthInPixels;
+
+/// Get screen height in pixels
+final double screenHeightInPixels = screenInfo.screenHeightInPixels;
+
+/// Get screen aspect ratio
+final double screenAspectRatio = screenInfo.screenAspectRatio;
 ```
 
-### Convert millimeters to pixels
+#### Convert from one unit to another
+To convert between different units, you can use the extension methods on `BuildContext`:
+
 ```dart
-// Convert 10 millimeters to pixels
-double? millimeters = 10;
-double? pixels;
-// get pixels value
-await ScreenHelper.mmToPixels(millimeters).then((value) {
-  pixels = value;
-});
+  // Access the BuildContext, typically in a build method
+  Widget build(BuildContext context) {
+  // Convert  millimeters to pixels
+  double mmToPx = context.mmToPx(double mm);
+  // Convert  pixels to millimeters
+  double pxToMm = context.pxToMm(int px);
+  // Convert  centimeters to pixels
+  double cmToPx = context.cmToPx(double cm);
+  // Convert  pixels to centimeters
+  double pxToCm = context.pxToCm(int px);
+  // Convert  inches to pixels
+  double inchesToPx = context.inchesToPx(double inches);
+  // Convert  pixels to inches
+  double pxToInches = context.pxToInches(int px);
+  }
 ```
-> [!IMPORTANT]
-> The function `mmToPixels` must be called inside a build method as the widget tree is fully built or it can be called in after the first frame is rendered using `WidgetsBinding.instance.addPostFrameCallback`.
+
+
 
 
 ## Example
@@ -88,130 +128,24 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  double? _screenPPI;
-  double? _screenDiagonalInInches;
-  double? _screenWidthInInches;
-  double? _screenHeightInInches;
-  int? _screenRealWidthInPixels;
-  int? _screenRealHeightInPixels;
-  int? _screenDiagonalInPixels;
-
-  double? _lineLengthInPixels;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchScreenData();
-  }
-
-  Future<void> _fetchScreenData() async {
-    // Fetch all screen data asynchronously
-    final double? ppi = await ScreenHelper.getScreenPPI();
-    final double? diagonalInches =
-        await ScreenHelper.getScreenDiagonalInInches();
-    final double? widthInches = await ScreenHelper.getScreenWidthInInches();
-    final double? heightInches = await ScreenHelper.getScreenHeightInInches();
-    final int? widthPixels = await ScreenHelper.getScreenRealWidthInPixels();
-    final int? heightPixels = await ScreenHelper.getScreenRealHeightInPixels();
-    final int? diagonalPixels = await ScreenHelper.getScreenDiagonalInPixels();
-
-    // Update the state with the fetched data
-    setState(() {
-      _screenPPI = ppi;
-      _screenDiagonalInInches = diagonalInches;
-      _screenWidthInInches = widthInches;
-      _screenHeightInInches = heightInches;
-      _screenRealWidthInPixels = widthPixels;
-      _screenRealHeightInPixels = heightPixels;
-      _screenDiagonalInPixels = diagonalPixels;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // function mmToPixels must be called inside a build method as the widget tree is fully built
-    // or it can be called in after the first frame is rendered using WidgetsBinding.instance.addPostFrameCallback
-    ScreenHelper.mmToPixels(15, context).then((value) {
-      setState(() {
-        _lineLengthInPixels = value;
-      });
-    });
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Screen Helper Example App'),
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Screen PPI: $_screenPPI',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Diagonal Size (in inches): $_screenDiagonalInInches',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Width (in inches): $_screenWidthInInches',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Height (in inches): $_screenHeightInInches',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Real Width (in pixels): $_screenRealWidthInPixels',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Real Height (in pixels): $_screenRealHeightInPixels',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Screen Diagonal Size (in pixels): $_screenDiagonalInPixels',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "line length 15mm",
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "line length in pixels: $_lineLengthInPixels",
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                if (_lineLengthInPixels != null)
-                  Center(
-                    child: Container(
-                      width: _lineLengthInPixels,
-                      height: 2.0,
-                      color: Colors.black,
-                    ),
-                  ),
-              ],
+    // Wrap your app with ScreenHelperWidget to provide screen information
+    // to all descendant widgets
+    return ScreenHelperWidget(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Screen Helper Example App'),
+          ),
+          body: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: ScreenInfoDisplay(),
             ),
           ),
         ),
@@ -219,6 +153,98 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+class ScreenInfoDisplay extends StatefulWidget {
+  const ScreenInfoDisplay({super.key});
+
+  @override
+  State<ScreenInfoDisplay> createState() => _ScreenInfoDisplayState();
+}
+
+class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
+  double _lineLengthMm = 15.0;
+
+  @override
+  Widget build(BuildContext context) {
+    // Access screen information using ScreenInfo.of(context)
+    final screenInfo = ScreenInfo.maybeOf(context);
+    if (screenInfo == null) {
+      return const CircularProgressIndicator();
+    }
+
+    // Use the extension method to convert mm to pixels
+    final lineLengthInPixels = context.mmToPx(_lineLengthMm);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        // Display various screen properties
+        Text(
+          'Screen PPI: ${screenInfo.ppi.toStringAsFixed(2)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Screen Diagonal Size (in inches): ${screenInfo.screenDiagonalInInches.toStringAsFixed(2)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Screen Width (in inches): ${screenInfo.screenWidthInInches.toStringAsFixed(2)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Screen Height (in inches): ${screenInfo.screenHeightInInches.toStringAsFixed(2)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Screen Real Width (in pixels): ${screenInfo.screenWidthInPixels.toStringAsFixed(0)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'Screen Real Height (in pixels): ${screenInfo.screenHeightInPixels.toStringAsFixed(0)}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          "Line length: ${_lineLengthMm.toStringAsFixed(1)} mm",
+          style: const TextStyle(fontSize: 16),
+        ),
+        Slider(
+          value: _lineLengthMm,
+          min: 1,
+          max: 100,
+          divisions: 99,
+          label: _lineLengthMm.round().toString(),
+          onChanged: (double value) {
+            setState(() {
+              _lineLengthMm = value;
+            });
+          },
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "Line length in pixels: ${lineLengthInPixels.toStringAsFixed(2)}",
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 10),
+        // Display a line with the converted length
+        Center(
+          child: Container(
+            width: lineLengthInPixels,
+            height: 2.0,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 ```
 
 ## Contributing
@@ -260,5 +286,4 @@ We welcome contributions to the `screen_helper` package! If you'd like to contri
     ```
 
 7. **Submit a Pull Request:**
-* Open a pull request from your branch on GitHub. Provide a clear description of what you’ve done and reference any related issues.
-
+* Open a pull request from your branch on GitHub. Provide a clear description of what you've done and reference any related issues.
