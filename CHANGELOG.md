@@ -1,3 +1,7 @@
+## 1.0.1
+* Added support to the new Iphones and Ipads.
+
+
 ## 1.0.0
 * changed the implementation to use inherited widget. so you can access the screen information from any widget in the widget tree.
 * changed method to convert to be an extension method. so you can use it like `context.mmToPx(15)`
