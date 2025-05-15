@@ -27,3 +27,6 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
+
+# Ignore the Runner directory for the specified date
+/ios/Runner 2025-01-23 22-16-23/

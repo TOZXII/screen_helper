@@ -1,3 +1,6 @@
+## 1.1.0
+* Added support to the new Iphones and Ipads.
+
 ## 1.0.1
 * Added support to the new Iphones and Ipads.
 

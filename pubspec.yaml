@@ -1,6 +1,6 @@
 name: screen_helper
 description: "A package that provides essential tools to access device screen details, including PPI, screen size in inches, resolution in pixels, and conversion from millimeters to pixels."
-version: 1.0.1
+version: 1.1.0
 homepage: https://github.com/TOZXII/screen_helper
 issue_tracker: https://github.com/TOZXII/screen_helper/issues
 screenshots:
