@@ -44,10 +44,7 @@ class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
   @override
   Widget build(BuildContext context) {
     // Access screen information using ScreenInfo.of(context)
-    final screenInfo = ScreenInfo.maybeOf(context);
-    if (screenInfo == null) {
-      return const CircularProgressIndicator();
-    }
+    final screenInfo = ScreenInfo.of(context);
 
     // Use the extension method to convert mm to pixels
     final lineLengthInPixels = context.mmToPx(_lineLengthMm);

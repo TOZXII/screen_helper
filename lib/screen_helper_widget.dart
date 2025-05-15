@@ -40,7 +40,7 @@ class ScreenHelperWidget extends StatefulWidget {
 
 class _ScreenHelperWidgetState extends State<ScreenHelperWidget>
     with WidgetsBindingObserver {
-  ScreenInfoData? _screenInfoData;
+  Future<ScreenInfoData?>? _screenInfoDataFuture;
 
   @override
   void initState() {
@@ -73,30 +73,36 @@ class _ScreenHelperWidgetState extends State<ScreenHelperWidget>
   void _updateScreenInfoData() {
     final dpi = MediaQuery.maybeDevicePixelRatioOf(context);
     if (dpi != null) {
-      _fetchAndSetScreenInfo(dpi);
+      setState(() {
+        _screenInfoDataFuture = _fetchAndSetScreenInfo(dpi);
+      });
     }
   }
 
-  Future<void> _fetchAndSetScreenInfo(double dpi) async {
+  Future<ScreenInfoData?> _fetchAndSetScreenInfo(double dpi) async {
     final sizeInInches =
         await ScreenHelperPlatform.instance.getScreenSizeInInches();
     final resolution =
         await ScreenHelperPlatform.instance.getScreenResolution();
     if (sizeInInches != null && resolution != null) {
-      setState(() {
-        _screenInfoData = ScreenInfoData(
-            dpi: dpi,
-            screenSizeInInches: sizeInInches,
-            screenResolution: resolution);
-      });
+      return ScreenInfoData(
+          dpi: dpi,
+          screenSizeInInches: sizeInInches,
+          screenResolution: resolution);
     }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScreenInfo(
-      screenInfoData: _screenInfoData,
-      child: widget.child,
+    return FutureBuilder<ScreenInfoData?>(
+      future: _screenInfoDataFuture,
+      builder: (context, snapshot) {
+        return ScreenInfo(
+          screenInfoData: snapshot.data,
+          child: widget.child,
+        );
+      },
     );
   }
 }
