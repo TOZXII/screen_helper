@@ -1,10 +1,10 @@
 name: screen_helper
 description: "A package that provides essential tools to access device screen details, including PPI, screen size in inches, resolution in pixels, and conversion from millimeters to pixels."
-version: 1.1.0
+version: 1.2.0
 homepage: https://github.com/TOZXII/screen_helper
 issue_tracker: https://github.com/TOZXII/screen_helper/issues
 screenshots:
-  - description: 'Example app screenshot'
+  - description: "Example app screenshot"
     path: screenshots/Example_screenshot.png
 
 topics:
@@ -14,10 +14,9 @@ topics:
   - px
   - ppi
 
-
 environment:
-  sdk: '>=3.3.0 <4.0.0'
-  flutter: '>=3.3.0'
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
@@ -37,5 +36,3 @@ flutter:
         pluginClass: ScreenHelperPlugin
       ios:
         pluginClass: ScreenHelperPlugin
- 
-
