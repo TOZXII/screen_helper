@@ -5,7 +5,6 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.os.Build;
 import android.graphics.Rect;
-import android.view.Display;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +12,6 @@ public class ScreenSizeHelper {
 
     private Activity activity;
     private DisplayMetrics metrics;
-    private Display display;
 
     public ScreenSizeHelper(Activity activity) {
         this.activity = activity;
@@ -28,13 +26,20 @@ public class ScreenSizeHelper {
             metrics.heightPixels = bounds.height();
         } else {
             // For Android 10 (API 29) and below
-            Display display = windowManager.getDefaultDisplay();
-            display.getRealMetrics(metrics);
+            populateLegacyDisplayMetrics(windowManager, metrics);
         }
 
         // Set the screen density (DPI) values
         metrics.xdpi = activity.getResources().getDisplayMetrics().xdpi;
         metrics.ydpi = activity.getResources().getDisplayMetrics().ydpi;
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void populateLegacyDisplayMetrics(
+            WindowManager windowManager,
+            DisplayMetrics metrics
+    ) {
+        windowManager.getDefaultDisplay().getRealMetrics(metrics);
     }
 
     // function to get real screen size in inches (width and height)

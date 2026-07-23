@@ -28,8 +28,8 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     defaultConfig {
@@ -37,7 +37,7 @@ android {
         applicationId "com.example.screen_helper_example"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -57,4 +57,12 @@ android {
 
 flutter {
     source '../..'
+}
+
+plugins.withId('org.jetbrains.kotlin.android') {
+    android {
+        kotlinOptions {
+            jvmTarget = '11'
+        }
+    }
 }
