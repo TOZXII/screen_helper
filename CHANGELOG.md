@@ -1,3 +1,14 @@
+## 1.2.1
+
+- Updated Android Java compatibility targets to Java 11 and aligned the Kotlin
+  JVM target when the Kotlin Android plugin is enabled.
+- Updated the example Android toolchain to AGP 8.10.1 and Gradle 8.11.1, using
+  Flutter's supported example-app minSdk.
+- Removed the redundant Android manifest package attribute now supplied by the
+  module namespace.
+- Isolated the pre-Android 11 display-metrics fallback so its required legacy
+  API use no longer emits a package-wide deprecation notice.
+
 ## 1.2.0
 
 - Added support to the new iPhones 17
