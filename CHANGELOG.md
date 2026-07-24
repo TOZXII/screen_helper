@@ -1,3 +1,7 @@
+## 1.2.2
+
+- Updated the README.md file.
+
 ## 1.2.1
 
 - Updated Android Java compatibility targets to Java 11 and aligned the Kotlin
