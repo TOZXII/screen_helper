@@ -1,3 +1,19 @@
+## Unreleased
+
+- Guard widget updates after disposal, coalesce refreshes, and ignore stale
+  responses. Add an optional `onError` callback while retaining the last valid
+  measurements after failures.
+- Fall back to the current Flutter view when no `MediaQuery` is available.
+- Refresh Android dimensions and density on every measurement request.
+- Correct iPad mini 6 to an 8.3-inch diagonal and report unknown iOS models as
+  unavailable instead of returning zero physical dimensions.
+- Reject invalid dimensions and ratios; accept integer or double native values.
+- Add `devicePixelRatio`, retaining deprecated `dpi` constructor/property aliases,
+  and clarify that unit conversions use Flutter logical pixels.
+- Compare measurements by numeric value and publish unmodifiable dimension maps.
+- Add lifecycle, error, conversion, Android, and iOS regression tests; replace
+  stale example tests and run verification on pull requests and pushes to main.
+
 ## 1.2.2
 
 - Updated the README.md file.

@@ -49,7 +49,7 @@ class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
       return const CircularProgressIndicator();
     }
 
-    // Use the extension method to convert mm to pixels
+    // Flutter layout dimensions use logical pixels.
     final lineLengthInPixels = context.mmToPx(_lineLengthMm);
 
     return Column(
@@ -105,7 +105,7 @@ class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
         ),
         const SizedBox(height: 10),
         Text(
-          "Line length in pixels: ${lineLengthInPixels.toStringAsFixed(2)}",
+          "Line length in logical pixels: ${lineLengthInPixels.toStringAsFixed(2)}",
           style: const TextStyle(fontSize: 16),
         ),
         const SizedBox(height: 10),

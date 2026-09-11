@@ -38,6 +38,9 @@ dependencies:
 
 Wrap your app with `ScreenHelperWidget` to provide screen information to all descendant widgets:
 
+The wrapper can sit above `MaterialApp`. Measurements load asynchronously and
+refresh when screen metrics change.
+
 ```dart
 import 'package:screen_helper/screen_helper.dart';
 ```
@@ -64,6 +67,43 @@ To get screen information, use `ScreenInfo.maybeOf(context)`
 final screenInfo = ScreenInfo.maybeOf(context);
 ```
 
+This returns `null` until a valid measurement is available. Check for `null`
+before reading the fields. Use `ScreenInfo.of(context)` only once data is ready.
+
+You can handle unavailable measurements and platform errors through `onError`:
+
+```dart
+ScreenHelperWidget(
+  onError: (error, stackTrace) {
+    debugPrint('Screen measurements unavailable: $error');
+  },
+  child: const MyApp(),
+)
+```
+
+A failed refresh preserves the last valid data. If the first request fails,
+`ScreenInfo.maybeOf(context)` remains `null`; use `onError` to show an appropriate
+fallback in your app. Unknown iOS models report unavailable physical dimensions
+instead of zero dimensions or infinite PPI. Android measurements with invalid
+physical density are also unavailable.
+
+Screen resolution is measured in **physical pixels**. Conversion methods such
+as `mmToPx` use **Flutter logical pixels**, suitable for widget widths and
+heights. `devicePixelRatio` is the number of physical pixels per logical pixel;
+it is not a density in dots per inch. The old `dpi` property and constructor
+argument remain available as deprecated aliases.
+
+When constructing `ScreenInfoData`, supply exactly one of `devicePixelRatio` or
+the legacy `dpi` argument. Dimensions and ratios must be positive and finite.
+Treat dimension maps as immutable; data supplied by the wrapper uses unmodifiable
+snapshots and compares dimensions by value.
+
+Physical sizes are estimates based on Android's reported display density or the
+iOS model's listed diagonal. Android 11 and later report current window bounds;
+older Android versions report display metrics, and iOS reports native display
+bounds. In split-screen mode, the reported Android window size can therefore
+differ from the full display size.
+
 #### available data:
 
 ```dart
@@ -72,8 +112,8 @@ final Map<String, double> screenSizeInInches = screenInfo.screenSizeInInches;
 
 /// Get screen resolution in pixels {width: , height: }
 final Map<String, double> screenResolution = screenInfo.screenResolution;
-/// Get screen Dot per inch
-final double dpi = screenInfo.dpi;
+/// Get physical pixels per Flutter logical pixel
+final double devicePixelRatio = screenInfo.devicePixelRatio;
 
 /// Get screen pixel per inch
 final double ppi = screenInfo.ppi;
@@ -99,24 +139,18 @@ final double screenAspectRatio = screenInfo.screenAspectRatio;
 
 #### Convert from one unit to another
 
-To convert between different units, you can use the extension methods on `BuildContext`:
+Once screen data is available, use the extension methods on `BuildContext`:
 
 ```dart
-  // Access the BuildContext, typically in a build method
-  Widget build(BuildContext context) {
-  // Convert  millimeters to pixels
-  double mmToPx = context.mmToPx(double mm);
-  // Convert  pixels to millimeters
-  double pxToMm = context.pxToMm(int px);
-  // Convert  centimeters to pixels
-  double cmToPx = context.cmToPx(double cm);
-  // Convert  pixels to centimeters
-  double pxToCm = context.pxToCm(int px);
-  // Convert  inches to pixels
-  double inchesToPx = context.inchesToPx(double inches);
-  // Convert  pixels to inches
-  double pxToInches = context.pxToInches(int px);
-  }
+// Convert physical units to Flutter logical pixels.
+final double fromMm = context.mmToPx(25.4);
+final double fromCm = context.cmToPx(2.54);
+final double fromInches = context.inchesToPx(1.0);
+
+// Convert integer Flutter logical pixels to physical units.
+final double inMm = context.pxToMm(100);
+final double inCm = context.pxToCm(100);
+final double inInches = context.pxToInches(100);
 ```
 
 ## Example
@@ -173,7 +207,7 @@ class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
       return const CircularProgressIndicator();
     }
 
-    // Use the extension method to convert mm to pixels
+    // Flutter layout dimensions use logical pixels.
     final lineLengthInPixels = context.mmToPx(_lineLengthMm);
 
     return Column(
@@ -229,7 +263,7 @@ class _ScreenInfoDisplayState extends State<ScreenInfoDisplay> {
         ),
         const SizedBox(height: 10),
         Text(
-          "Line length in pixels: ${lineLengthInPixels.toStringAsFixed(2)}",
+          "Line length in logical pixels: ${lineLengthInPixels.toStringAsFixed(2)}",
           style: const TextStyle(fontSize: 16),
         ),
         const SizedBox(height: 10),

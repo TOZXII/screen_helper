@@ -16,8 +16,8 @@ class MethodChannelScreenHelper extends ScreenHelperPlatform {
         .invokeMethod<Map<dynamic, dynamic>>('getScreenSizeInInches');
     if (result != null) {
       return {
-        'width': result['width'] as double,
-        'height': result['height'] as double,
+        'width': (result['width'] as num).toDouble(),
+        'height': (result['height'] as num).toDouble(),
       };
     }
     return null;
@@ -30,8 +30,8 @@ class MethodChannelScreenHelper extends ScreenHelperPlatform {
         .invokeMethod<Map<dynamic, dynamic>>('getScreenResolution');
     if (result != null) {
       return {
-        'width': result['width'],
-        'height': result['height'],
+        'width': (result['width'] as num).toDouble(),
+        'height': (result['height'] as num).toDouble(),
       };
     }
     return null;

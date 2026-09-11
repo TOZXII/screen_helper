@@ -3,11 +3,20 @@ import UIKit
 public class ScreenSizeHelper {
 
   // function to get real screen size in inches (width and height)
-  func getScreenSizeInInches() -> [String: CGFloat] {
-    let screenSize = UIScreen.dimensionInInches
-    let screenWidthInInc = screenSize?.width
-    let screenHeightInInc = screenSize?.height
-    return ["width": screenWidthInInc ?? 0, "height": screenHeightInInc ?? 0]
+  func getScreenSizeInInches() -> [String: CGFloat]? {
+    return Self.sizeInInches(
+      modelIdentifier: UIDevice.modelIdentifier,
+      resolution: UIScreen.main.nativeBounds.size)
+  }
+
+  static func sizeInInches(modelIdentifier: String, resolution: CGSize) -> [String: CGFloat]? {
+    guard let diagonal = UIScreen.diagonalInInches(for: modelIdentifier),
+      resolution.width.isFinite, resolution.height.isFinite,
+      resolution.width > 0, resolution.height > 0
+    else { return nil }
+    let ratio = resolution.width / resolution.height
+    let height = diagonal / sqrt(ratio * ratio + 1)
+    return ["width": ratio * height, "height": height]
   }
 
   // function to get screen resolution in pixels (width and height)

@@ -31,8 +31,10 @@ private func computeIfSome<T: Any, S: Any>(optional: T?, computation: ((T) -> S)
 extension UIScreen {
 
   /// The screen dimension in inches
-  public static let diagonalInInches: CGFloat? = {
-    switch UIDevice.modelIdentifier {
+  public static let diagonalInInches: CGFloat? = diagonalInInches(for: UIDevice.modelIdentifier)
+
+  static func diagonalInInches(for modelIdentifier: String) -> CGFloat? {
+    switch modelIdentifier {
     case "iPhone4,1":  // iPhone 4S
       return 3.5
 
@@ -109,9 +111,11 @@ extension UIScreen {
     case "iPad4,4", "iPad4,5", "iPad4,6": fallthrough  // iPad Mini 2
     case "iPad4,7", "iPad4,8", "iPad4,9": fallthrough  // iPad Mini 3
     case "iPad5,1", "iPad5,2": fallthrough  // iPad Mini 4
-    case "iPad11,1", "iPad11,2": fallthrough  // iPad Mini 5
-    case "iPad14,1", "iPad14,2":  // iPad Mini 6
+    case "iPad11,1", "iPad11,2":  // iPad Mini 5
       return 7.9
+
+    case "iPad14,1", "iPad14,2":  // iPad Mini 6
+      return 8.3
 
     case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4": fallthrough  // iPad 2
     case "iPad3,1", "iPad3,2", "iPad3,3": fallthrough  // iPad 3rd generation
@@ -163,7 +167,7 @@ extension UIScreen {
     default:  // unknown model identifier
       return .none
     }
-  }()
+  }
 
   /// The number of pixels per inch for this device
   public static let pixelsPerInch: CGFloat? = computeIfSome(
